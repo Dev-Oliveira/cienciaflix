@@ -1,0 +1,22 @@
+{
+    "categorias":[
+        {
+            "id": 1,
+            "nome": "Eletricidade",
+            "descricao": "Descubra sobre a mais importante energia do mundo",
+            "cor": "#cbd1ff"
+        },
+        {
+            "id": 2,
+            "nome": "Movimento",
+            "descricao": "Você sabe o que é a velocidade? Acho que não.",
+            "cor": "#cbd1ff"
+        },
+        {
+            "id": 3,
+            "nome": "Reação",
+            "descricao": "Nada se cria tudo se transforma - Lavoisier",
+            "cor": "#cbd1ff"
+        }
+    ]
+}

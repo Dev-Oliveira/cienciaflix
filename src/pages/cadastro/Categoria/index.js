@@ -1,7 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import PageDefault from '../../../componentes/PageDefault';
 import { Link } from 'react-router-dom';
 import FormField from '../../../componentes/FormField';
+import Button from '../../../componentes/Button';
+
 
 
 function CadastroCategoria(){
@@ -28,8 +30,46 @@ function CadastroCategoria(){
     setValue( 
       infosDoEvento.target.getAttribute('name'),
       infosDoEvento.target.value,
-    )
+    );
   }
+
+
+  useEffect(() => {
+    console.log('Tira a cerveja do congelador');
+    const URL_TOP = 'http://localhost:8080/categorias';
+    fetch(URL_TOP)
+      .then(async (respostaDoServidor) => {
+        const resposta = await respostaDoServidor.json();
+        setCategorias({
+          ...resposta,
+        });
+      })
+    
+    
+    /* setTimeout(() => {
+      setCategorias([
+        ...categorias,
+        {
+          "id": 1,
+          "nome": "Eletricidade",
+          "descricao": "Descubra sobre a mais importante energia do mundo",
+          "cor": "#cbd1ff"
+        },
+        {
+          "id": 2,
+          "nome": "Movimento",
+          "descricao": "Você sabe o que é a velocidade? Acho que não.",
+          "cor": "#cbd1ff"
+        },
+        {
+          "id": 3,
+          "nome": "Reação",
+          "descricao": "Nada se cria tudo se transforma - Lavoisier",
+          "cor": "#cbd1ff"
+        }
+      ])
+    }, 4 * 1000); */
+  }, []);
   
   return(
       <PageDefault>
@@ -56,18 +96,13 @@ function CadastroCategoria(){
             onChange={hendleChange}
           />
       
-
-          <div>
-            <label>
-                Descrição:
-                <textarea
-                type="text"
-                value={values.descricao}
-                name="descricao"
-                onChange={hendleChange}
-                />
-            </label>
-          </div>
+      <FormField
+            label="Descrição"
+            type="textarea"
+            name="descricao"
+            value={values.descricao}
+            onChange={hendleChange}
+          />
 
           <FormField
             label="Cor"
@@ -78,15 +113,21 @@ function CadastroCategoria(){
           />
         
 
-        <button>
+        <Button>
             Cadastrar
-        </button>
+        </Button>
         </form>
+        
+        {categorias.length === 0 && (<div>
+          {/* Cargando... */}
+          Loading...
+        </div>
+        )}
 
         <ul>
           {categorias.map((categoria, indice) => {
             return (
-              <li key={`${categoria}${indice}`}>
+              <li key={`${categoria.nome}`}>
                 {categoria.nome}
               </li>
             )
