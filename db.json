@@ -2,19 +2,19 @@
     "categorias":[
         {
             "id": 1,
-            "nome": "Eletricidade",
+            "nome": "Fenomenos Físicos",
             "descricao": "Descubra sobre a mais importante energia do mundo",
             "cor": "#cbd1ff"
         },
         {
             "id": 2,
-            "nome": "Movimento",
+            "nome": "Fenomenos Químicos",
             "descricao": "Você sabe o que é a velocidade? Acho que não.",
             "cor": "#cbd1ff"
         },
         {
             "id": 3,
-            "nome": "Reacao",
+            "nome": "Experimentos",
             "descricao": "Nada se cria tudo se transforma - Lavoisier",
             "cor": "#cbd1ff"
         }
