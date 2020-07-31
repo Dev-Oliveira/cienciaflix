@@ -1,51 +1,46 @@
-import React, {useState, useEffect} from 'react';
-import PageDefault from '../../../componentes/PageDefault';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import PageDefault from '../../../componentes/PageDefault';
 import FormField from '../../../componentes/FormField';
 import Button from '../../../componentes/Button';
 
-
-
-function CadastroCategoria(){
+function CadastroCategoria() {
   const valoresInicias = {
-    nome:'',
-    descricao:'',
-    cor:'#000'
-  }
-  const [categorias, setCategorias] = useState([])
+    nome: '',
+    descricao: '',
+    cor: '#000',
+  };
+  const [categorias, setCategorias] = useState([]);
   const [values, setValues] = useState(valoresInicias);
-  
-  
 
-  function setValue(chave, valor){
+  function setValue(chave, valor) {
     setValues(
       {
         ...values,
         [chave]: valor,
-      }
-    )
+      },
+    );
   }
 
-  function hendleChange(infosDoEvento){
-    setValue( 
+  function hendleChange(infosDoEvento) {
+    setValue(
       infosDoEvento.target.getAttribute('name'),
       infosDoEvento.target.value,
     );
   }
 
-
   useEffect(() => {
-    console.log('Tira a cerveja do congelador');
-    const URL_TOP = 'http://localhost:8080/categorias';
+    const URL_TOP = window.location.hostname.includes('localhost')
+      ? 'http://localhost:3000/categorias'
+      : 'https://cienciaflix.herokuapp.com/categorias';
     fetch(URL_TOP)
       .then(async (respostaDoServidor) => {
         const resposta = await respostaDoServidor.json();
-        setCategorias({
+        setCategorias([
           ...resposta,
-        });
-      })
-    
-    
+        ]);
+      });
+
     /* setTimeout(() => {
       setCategorias([
         ...categorias,
@@ -70,76 +65,75 @@ function CadastroCategoria(){
       ])
     }, 4 * 1000); */
   }, []);
-  
-  return(
-      <PageDefault>
-        <h1>Cadastro de Categoria: {values.nome}</h1>
 
-        <form onSubmit={function handleSubmit(infosDoEvento){
-          infosDoEvento.preventDefault();
-          console.log('VOcê tentou enviar o form')
-          setCategorias([
-            ...categorias,
-            values
-          ]);
-          
-          setValues(valoresInicias)
-        }}>
+  return (
+    <PageDefault>
+      <h1>
+        Cadastro de Categoria:
+        {values.nome}
+      </h1>
 
+      <form onSubmit={function handleSubmit(infosDoEvento) {
+        infosDoEvento.preventDefault();
+        console.log('VOcê tentou enviar o form');
+        setCategorias([
+          ...categorias,
+          values,
+        ]);
 
-        
-          <FormField
-            label="Nome da Categoria"
-            type="text"
-            name="nome"
-            value={values.nome}
-            onChange={hendleChange}
-          />
-      
-      <FormField
-            label="Descrição"
-            type="textarea"
-            name="descricao"
-            value={values.descricao}
-            onChange={hendleChange}
-          />
+        setValues(valoresInicias);
+      }}
+      >
 
-          <FormField
-            label="Cor"
-            type="color"
-            name="cor"
-            value={values.cor}
-            onChange={hendleChange}
-          />
-        
+        <FormField
+          label="Nome da Categoria"
+          type="text"
+          name="nome"
+          value={values.nome}
+          onChange={hendleChange}
+        />
+
+        <FormField
+          label="Descrição"
+          type="textarea"
+          name="descricao"
+          value={values.descricao}
+          onChange={hendleChange}
+        />
+
+        <FormField
+          label="Cor"
+          type="color"
+          name="cor"
+          value={values.cor}
+          onChange={hendleChange}
+        />
 
         <Button>
-            Cadastrar
+          Cadastrar
         </Button>
-        </form>
-        
-        {categorias.length === 0 && (<div>
+      </form>
+
+      {categorias.length === 0 && (
+        <div>
           {/* Cargando... */}
           Loading...
         </div>
-        )}
+      )}
 
-        <ul>
-          {categorias.map((categoria, indice) => {
-            return (
-              <li key={`${categoria.nome}`}>
-                {categoria.nome}
-              </li>
-            )
-          })}
-        </ul>
+      <ul>
+        {categorias.map((categoria) => (
+          <li key={`${categoria.nome}`}>
+            {categoria.nome}
+          </li>
+        ))}
+      </ul>
 
-        <Link to="/">
-            Ir para a Home
-        </Link>
-      </PageDefault>
-    )
-    
-  }
+      <Link to="/">
+        Ir para a Home
+      </Link>
+    </PageDefault>
+  );
+}
 
-  export default CadastroCategoria;
+export default CadastroCategoria;
