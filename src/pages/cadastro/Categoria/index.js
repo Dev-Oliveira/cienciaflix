@@ -3,35 +3,22 @@ import { Link } from 'react-router-dom';
 import PageDefault from '../../../componentes/PageDefault';
 import FormField from '../../../componentes/FormField';
 import Button from '../../../componentes/Button';
+import useForm from '../../../hooks/useForm';
 
 function CadastroCategoria() {
   const valoresInicias = {
-    nome: '',
+    titulo: '',
     descricao: '',
     cor: '#000',
   };
+
+  const { hendleChange, values, clearForm } = useForm(valoresInicias);
+
   const [categorias, setCategorias] = useState([]);
-  const [values, setValues] = useState(valoresInicias);
-
-  function setValue(chave, valor) {
-    setValues(
-      {
-        ...values,
-        [chave]: valor,
-      },
-    );
-  }
-
-  function hendleChange(infosDoEvento) {
-    setValue(
-      infosDoEvento.target.getAttribute('name'),
-      infosDoEvento.target.value,
-    );
-  }
 
   useEffect(() => {
     const URL_TOP = window.location.hostname.includes('localhost')
-      ? 'http://localhost:3000/categorias'
+      ? 'http://localhost:8080/categorias'
       : 'https://cienciaflix.herokuapp.com/categorias';
     fetch(URL_TOP)
       .then(async (respostaDoServidor) => {
@@ -70,26 +57,25 @@ function CadastroCategoria() {
     <PageDefault>
       <h1>
         Cadastro de Categoria:
-        {values.nome}
+        {values.titulo}
       </h1>
 
       <form onSubmit={function handleSubmit(infosDoEvento) {
         infosDoEvento.preventDefault();
-        console.log('VOcê tentou enviar o form');
         setCategorias([
           ...categorias,
           values,
         ]);
 
-        setValues(valoresInicias);
+        clearForm();
       }}
       >
 
         <FormField
-          label="Nome da Categoria"
+          label="titulo da Categoria"
           type="text"
-          name="nome"
-          value={values.nome}
+          name="titulo"
+          value={values.titulo}
           onChange={hendleChange}
         />
 
@@ -123,8 +109,8 @@ function CadastroCategoria() {
 
       <ul>
         {categorias.map((categoria) => (
-          <li key={`${categoria.nome}`}>
-            {categoria.nome}
+          <li key={`${categoria.titulo}`}>
+            {categoria.titulo}
           </li>
         ))}
       </ul>
