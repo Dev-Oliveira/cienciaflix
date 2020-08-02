@@ -7,6 +7,7 @@ const Button = styled.button`
     box-sizing: border-box;
     cursor: pointer;
     padding: 16px 24px;
+    bottom: 5px;
     font-style: normal;
     font-weight: bold;
     font-size: 16px;
@@ -20,6 +21,5 @@ const Button = styled.button`
   &:focus {
     opacity: .5;
   }
-`
-
-export default Button
+`;
+export default Button;
